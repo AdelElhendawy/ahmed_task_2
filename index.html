@@ -1,0 +1,306 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="theme-color" content="#172722" />
+    <title>سجل الطلاب والدرجات</title>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;500;600;700;800&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="css/style.css" />
+  </head>
+
+  <body>
+    <div id="toast" class="toast" role="status" aria-live="polite"></div>
+
+    <main class="page">
+      <header class="topbar">
+        <a class="brand" href="#" aria-label="الرئيسية">
+          <span class="brand-mark" aria-hidden="true">د</span>
+          <span class="brand-name">دفتر<span>الطلاب</span></span>
+        </a>
+
+        <div class="topbar-center">
+          <span class="topbar-kicker">إدارة أكاديمية</span>
+          <span class="topbar-divider"></span>
+          <span class="topbar-title">السجل الدراسي</span>
+        </div>
+
+        <div class="header-actions">
+          <span class="status"><span class="status-dot"></span> مباشر</span>
+          <button
+            class="theme-toggle"
+            id="themeToggle"
+            type="button"
+            aria-label="تفعيل الوضع الفاتح"
+            title="تغيير المظهر"
+          >
+            <span id="themeIcon" aria-hidden="true">☀</span>
+          </button>
+          <div class="avatar" title="المستخدم">م</div>
+        </div>
+      </header>
+
+      <section class="page-heading">
+        <div>
+          <div class="heading-overline"><span></span> ملف الفصل الدراسي</div>
+          <h1>سجل <span>الطلاب</span></h1>
+          <p>إدارة بيانات الطلاب ودرجاتهم ومتابعة النتائج من مكان واحد.</p>
+        </div>
+        <div class="heading-stamp" aria-hidden="true">
+          <span>سجل</span>
+          <strong>٢٠٢٥</strong>
+        </div>
+      </section>
+
+      <div class="workbench">
+        <aside class="side-column">
+          <section class="panel add-student-panel">
+            <div class="section-title">
+              <span class="section-number">01</span>
+              <div>
+                <h2>قيد طالب جديد</h2>
+                <p>أدخل بيانات الطالب ودرجاته</p>
+              </div>
+            </div>
+
+            <form id="studentForm" class="student-form">
+              <label class="field">
+                <span>اسم الطالب</span>
+                <input
+                  id="studentName"
+                  name="studentName"
+                  type="text"
+                  placeholder="مثال: احمد محمد"
+                  maxlength="50"
+                  autocomplete="name"
+                  required
+                />
+              </label>
+
+              <label class="field">
+                <span>رقم الجلوس</span>
+                <input
+                  id="studentId"
+                  name="studentId"
+                  type="number"
+                  placeholder="مثال: 1"
+                  min="1"
+                  step="1"
+                  required
+                />
+                <small class="field-hint">استخدم رقمًا غير مسجل.</small>
+              </label>
+
+              <div class="field-group-label">درجات المواد</div>
+
+              <label class="field">
+                <span>المادة الأولى</span>
+                <input
+                  id="grade1"
+                  name="grade1"
+                  type="number"
+                  placeholder="من 100"
+                  min="0"
+                  max="100"
+                  required
+                />
+              </label>
+
+              <label class="field">
+                <span>المادة الثانية</span>
+                <input
+                  id="grade2"
+                  name="grade2"
+                  type="number"
+                  placeholder="من 100"
+                  min="0"
+                  max="100"
+                  required
+                />
+              </label>
+
+              <label class="field">
+                <span>المادة الثالثة</span>
+                <input
+                  id="grade3"
+                  name="grade3"
+                  type="number"
+                  placeholder="من 100"
+                  min="0"
+                  max="100"
+                  required
+                />
+              </label>
+
+              <label class="field">
+                <span>نسبة الحضور</span>
+                <input
+                  id="attendance"
+                  name="attendance"
+                  type="number"
+                  placeholder="مثال: 85%"
+                  min="0"
+                  max="100"
+                  required
+                />
+              </label>
+
+              <div class="form-actions">
+                <button class="submit-button" type="submit">
+                  <span aria-hidden="true">＋</span>
+                  تسجيل الطالب
+                </button>
+                <button class="demo-button" id="demoButton" type="button">
+                  تعبئة مثال
+                </button>
+              </div>
+
+              <p id="formMessage" class="form-message" aria-live="polite"></p>
+            </form>
+          </section>
+
+          <section class="summary-panel" aria-label="ملخص الفصل">
+            <div class="section-title summary-title">
+              <span class="section-number">02</span>
+              <div>
+                <h2>ملخص الفصل</h2>
+                <p>أرقام السجل الحالية</p>
+              </div>
+            </div>
+
+            <div class="stats-grid">
+              <article class="stat-card stat-total">
+                <span class="stat-label">إجمالي الطلاب</span>
+                <strong id="totalStudents">0</strong>
+                <span class="stat-mark">قيد</span>
+              </article>
+              <article class="stat-card stat-passed">
+                <span class="stat-label">ناجحون</span>
+                <strong id="passedStudents">0</strong>
+                <span class="stat-mark">✓</span>
+              </article>
+              <article class="stat-card stat-review">
+                <span class="stat-label">للمراجعة</span>
+                <strong id="reviewStudents">0</strong>
+                <span class="stat-mark">!</span>
+              </article>
+              <article class="stat-card stat-mercy">
+                <span class="stat-label">لجنة الرأفة</span>
+                <strong id="mercyStudents">0</strong>
+                <span class="stat-mark">+</span>
+              </article>
+            </div>
+          </section>
+
+          <aside class="mercy-panel">
+            <div class="section-title mercy-title">
+              <span class="section-number">03</span>
+              <div>
+                <h2>ملاحظات الرأفة</h2>
+                <p>الطلاب المستحقون للدعم</p>
+              </div>
+            </div>
+
+            <div class="mercy-summary">
+              <span class="summary-label">متوسطهم بعد الإضافة</span>
+              <div class="summary-value">
+                <strong id="mercyAverage">0.0</strong>
+                <span>درجة</span>
+              </div>
+            </div>
+
+            <div class="mercy-list-heading">
+              <span>قائمة المستحقين</span>
+              <span id="mercyCount" class="count-pill">0</span>
+            </div>
+
+            <div id="mercyList" class="mercy-list"></div>
+
+            <div class="mercy-note">
+              <span aria-hidden="true">✎</span>
+              <p>تُضاف <strong>5 درجات رأفة</strong> للطالب الذي يتراوح متوسطه بين 40 و49.</p>
+            </div>
+          </aside>
+        </aside>
+
+        <section class="record-panel">
+          <div class="record-header">
+            <div>
+              <div class="heading-overline"><span></span> دفتر الدرجات</div>
+              <h2>كشف الطلاب</h2>
+              <p>كل طالب مسجل يظهر هنا مع متوسطه ونتيجته.</p>
+            </div>
+            <div class="record-index">
+              <span>عدد القيود</span>
+              <strong id="tableCount">عرض 0 طلاب</strong>
+            </div>
+          </div>
+
+          <div class="record-legend">
+            <span><i class="legend-dot legend-pass"></i> ناجح</span>
+            <span><i class="legend-dot legend-review"></i> يحتاج مراجعة</span>
+            <span class="live-label"><span></span> تحديث مباشر</span>
+          </div>
+
+          <div class="table-wrap">
+            <table>
+              <thead>
+                <tr>
+                  <th>الطالب</th>
+                  <th>رقم الجلوس</th>
+                  <th>الدرجات</th>
+                  <th>الحضور</th>
+                  <th>المتوسط</th>
+                  <th>التقدير</th>
+                  <th>النتيجة</th>
+                  <th>إجراء</th>
+                </tr>
+              </thead>
+              <tbody id="studentsTable"></tbody>
+            </table>
+          </div>
+
+          <div class="record-footer">
+            <span>نهاية الكشف</span>
+            <span>تُحسب النتائج تلقائيًا بعد كل تعديل</span>
+          </div>
+        </section>
+      </div>
+
+      <footer class="page-footer">
+        <span>دفتر الطلاب © 2025</span>
+        <span>نظام إدارة وتحليل نتائج الطلاب</span>
+      </footer>
+    </main>
+
+    <div id="confirmDialog" class="dialog-backdrop" aria-hidden="true">
+      <section
+        class="confirm-dialog"
+        role="dialog"
+        aria-modal="true"
+        aria-labelledby="dialogTitle"
+        aria-describedby="dialogMessage"
+      >
+        <div class="dialog-icon" aria-hidden="true">!</div>
+        <h2 id="dialogTitle">تأكيد الحذف</h2>
+        <p id="dialogMessage">هل أنت متأكد من حذف هذا الطالب؟</p>
+        <div class="dialog-actions">
+          <button id="cancelDelete" class="cancel-button" type="button">
+            إلغاء
+          </button>
+          <button id="confirmDelete" class="confirm-delete-button" type="button">
+            نعم، احذف الطالب
+          </button>
+        </div>
+      </section>
+    </div>
+
+    <script src="js/script.js"></script>
+  </body>
+</html>
